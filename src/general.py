@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
+import random
+import matplotlib
+import matplotlib.pyplot as plt
+from aabb import Aabb
+
 logger = logging.getLogger(__name__)
 
 def bit_seperate_32(n: int):
@@ -17,3 +22,22 @@ def get_2d_morton_number(x, y):
     x軸方向にx番目、y軸方向にy番目と数える。
     """
     return (bit_seperate_32(x) | (bit_seperate_32(y) << 1))
+
+def random_aabb(H, W, identifier=None):
+    """
+    H*Wの領域に、ランダムなaabbを一つ作成する。
+    """
+    p1 = [random.uniform(0, W), random.uniform(0, H)]
+    p2 = [random.uniform(0, W), random.uniform(0, H)]
+    return Aabb(p1, p2, identifier=identifier)
+
+def display_aabbs(H, W, aabbs: list[Aabb], ax):
+    """
+    Aabbを可視化する。
+    """
+    for aabb in aabbs:
+        aabb.plot(ax)
+
+    ax.set_xlim([0, W])
+    ax.set_ylim([0, H])
+    return ax

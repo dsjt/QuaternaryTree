@@ -3,6 +3,8 @@
 import math
 import itertools
 import logging
+import matplotlib
+import matplotlib.pyplot as plt
 
 logger = logging.getLogger(__name__)
 
@@ -18,3 +20,21 @@ def bit_n_most(v: int):
         return 0
     else:
         return len(bin(v))-2
+
+class AutoSaveFigure(matplotlib.figure.Figure):
+    def __init__(self, fn, **kwargs):
+        self.fn = fn
+        super().__init__(**kwargs)
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        plt.tight_layout()
+        self.savefig(self.fn)
+        plt.close(self)
+        if exception_type is not None:
+            logging.error("Error has occurred.")
+            logging.error(exception_type, exception_value, traceback)
+        return

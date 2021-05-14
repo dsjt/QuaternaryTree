@@ -47,13 +47,13 @@ class LQT(object):
     def register(self, aabb: Aabb):
         """AabbをLQTに登録する。情報を変更した場合も再登録する。
         """
+        logger.debug(f"lqt register {aabb}")
         # Aabbが既に空間に登録されている場合、登録を解除する。
         if aabb.cell is not None:
             aabb.cell.remove(aabb)
             aabb.cell = None
 
         # aabbのモートンオーダを求める
-        logger.debug(f"{aabb.get_points()}")
         (x1, y1), (x2, y2) = aabb.get_points()
         mn1 = get_2d_morton_number(int(x1 / self.U), int(y1 / self.U))
         mn2 = get_2d_morton_number(int(x2 / self.U), int(y2 / self.U))
