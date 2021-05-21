@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+# 四分木による接触判定を作成する。
+# 理論については次を参照: http://marupeke296.com/COL_2D_No8_QuadTree.html
+# 実装はいくつかの点で異なるため注意
+# - 双方向リストではなくsetを使っている
+# - 非再帰DFSは競プロテクを採用
 import logging
 import random
 from aabb import Aabb
